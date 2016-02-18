@@ -1,0 +1,24 @@
+.boxDiv{
+    background-color: #fff;
+    width: 620px;
+    padding: 0 0 2% 0;
+    border: 2px solid black;
+    margin: auto;
+    text-align: center;
+}
+.maps{
+    width: 40%;
+    margin: auto;
+}
+#map-canvas {
+    width: 650px;
+    height: 450px;
+}
+td{
+    text-align: center;
+}
+.forecast-img {
+    margin-right: 10px;
+    width: 175px;
+    height: 120px;
+}

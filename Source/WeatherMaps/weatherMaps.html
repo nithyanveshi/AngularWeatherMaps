@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="weatherMaps">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular.min.js" type="application/javascript"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true"></script>
+    <link rel="stylesheet" type="text/css" href="css/wm.css">
+    <title>Weather Maps</title>
+</head>
+<body>
+<div class="maps" ng-controller="mapController">
+    <div class="boxDiv">
+    <h1 style="text-align: center">Weather Maps</h1>
+    From: <input type="text"  ng-model="startLoc" id="startLoc" />
+    To: <input type="text"  ng-model="endLoc" id="endLoc" />
+    <input type="button" value="Go" ng-click="getDirTemp();findWeather(startLoc,endLoc)" />
+    </div>
+    <br /><br />
+    <table style="border-spacing: 5px;">
+        <tr>
+            <td>{{startLoc | uppercase}}
+                <img class="forecast-img" src="./resources/icon_{{placeA.item.condition.code}}.png" />
+                {{ placeA.item.condition.text }} | {{ placeA.item.condition.temp }}°F</td>
+            <td rowspan="2" id="map-canvas" style="height: 400px;"></td>
+        </tr>
+        <tr>
+            <td>{{endLoc | uppercase}}
+                <img class="forecast-img" src="./resources/icon_{{placeB.item.condition.code}}.png" />
+                {{ placeB.item.condition.text }} | {{ placeB.item.condition.temp }}°F</h3></td>
+        </tr>
+    </table>
+<!--    <div id="map-canvas" style="height: 400px;"></div> -->
+</div>
+</body>
+</html>
+<script>
+var app = angular.module('weatherMaps', []);
+app.controller('mapController', ['$scope', 'weatherService', function($scope, weatherService) {
+    var map;
+    var mapOptions;
+    var dirDisp = new google.maps.DirectionsRenderer({
+        draggable: true
+    });
+    var dirServ = new google.maps.DirectionsService();
+
+    $scope.initialize = function () {
+        navigator.geolocation.getCurrentPosition(function (position) {
+            var latlng = new google.maps.LatLng(
+                    position.coords.latitude,
+                    position.coords.longitude);
+            var mapOptions = {
+                zoom: 15,
+                center: latlng
+            };
+            map = new google.maps.Map(document.getElementById('map-canvas'),
+                    mapOptions);
+            var marker = new google.maps.Marker({
+                position: latlng,
+                map: map
+            });
+        });
+    };
+    $scope.getDirTemp = function () {
+        var end = document.getElementById('endLoc').value;
+        var start = document.getElementById('startLoc').value;
+        var request = {
+            origin: start,
+            destination: end,
+            travelMode: google.maps.TravelMode.DRIVING
+        };
+        dirServ.route(request, function (response, status) {
+            if (status == google.maps.DirectionsStatus.OK) {
+                dirDisp.setMap(map);
+                dirDisp.setDirections(response);
+                console.log(status);
+            }
+        });
+    };
+    google.maps.event.addDomListener(window, 'load', $scope.initialize);
+    function fetchWeather(startLoc,endLoc) {
+        weatherService.getWeather(startLoc).then(function(dataA){
+            $scope.placeA = dataA;
+        });
+        weatherService.getWeather(endLoc).then(function(dataB){
+            $scope.placeB = dataB;
+        });
+    }
+    fetchWeather("kansas","kansas");
+    $scope.findWeather = function(startLoc,endLoc) {
+        $scope.placeA = '';
+        $scope.placeB = '';
+        fetchWeather(startLoc,endLoc);
+    };
+}]);
+app.factory('weatherService', ['$http', '$q', function ($http, $q){
+    function getWeather (startLoc,endLoc) {
+        var deferred = $q.defer();
+        $http.get('https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20weather.forecast%20where%20woeid%20in%20(select%20woeid%20from%20geo.places(1)%20where%20text%3D%22' + startLoc + '%22)&format=json&ormat=json&diagnostics=true&callback=')
+                .success(function(dataA){
+                    deferred.resolve(dataA.query.results.channel);
+                })
+                .error(function(err){
+                    console.log('Error retrieving markets');
+                    deferred.reject(err);
+                });
+        $http.get('https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20weather.forecast%20where%20woeid%20in%20(select%20woeid%20from%20geo.places(1)%20where%20text%3D%22' + endLoc + '%22)&format=json&ormat=json&diagnostics=true&callback=')
+                .success(function(dataB){
+                    deferred.resolve(dataB.query.results.channel);
+                })
+                .error(function(err){
+                    console.log('Error retrieving markets');
+                    deferred.reject(err);
+                });
+        return deferred.promise;
+    }
+
+    return {
+        getWeather: getWeather
+    };
+}]);
+</script>

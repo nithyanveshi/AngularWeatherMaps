@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.13/angular-route.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.13/angular-animate.js"></script>
+    <script src="./scripts/wmscript.js" type="application/javascript"></script>
+    <script src="scripts/wmscript.js" type="application/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="css/login.css">
+    <title>Login</title>
+</head>
+<body>
+<h1 style="text-align: center" id="boxDiv">Weather Maps</h1>
+<br />
+<form name="LogForm" value="LogForm" action="">
+<div ng-app="regDir" class="homePageDiv" ng-init="person={firstName:'John',lastName:'Doe',username:'admin',password:'admin'}">
+    <div ng-controller="regCtrl">
+    <div class="regDiv">
+        <h2 style="text-align: center">Not a User ?</h2>
+        <br />
+        <input type="button" id="logButton" value="Register" onclick="regDirect()"/>
+    </div>
+
+    <div class="loginDiv">
+        <p>Username :&emsp;<input type="text" id="name" ng-model="name" placeholder="Username"></p>
+        <p>Password &nbsp;:&emsp;<input type="password" id="pswd" ng-model="pswd" placeholder="Password"></p>
+        <br />
+        <input type="button" value="Login" onclick="loginDirect()"/>
+        <input type="hidden" name="temp" value="dummy"/>
+    </div>
+    </div>
+</div>
+</form>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.13/angular-route.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.13/angular-animate.js"></script>
+    <script src="scripts/wmscript.js" type="application/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="css/login.css">
+    <title>Register</title>
+</head>
+<body>
+<h1 style="text-align: center" id="boxDiv">Register to Weather Maps</h1>
+<br />
+<form name="RegForm" value="RegForm" action="">
+<div ng-app="ngAnimate" class="homePageDiv">
+    <table class="regPageDiv" align="center" cellpadding="5px 0 5px 0">
+        <tr><td>First name :</td><td><input type="text" id="fname" ng-model="fname" placeholder="First name" ></td></tr>
+        <tr><td>Last name :</td><td><input type="text" id="lname" ng-model="lname" placeholder="Last name" ></td></tr></p>
+        <tr><td>User name :</td><td><input type="text" id="uname" ng-model="uname" placeholder="Username" ></td></tr></p>
+        <tr><td>Password :</td><td><input type="password" id="upswd" ng-model="upswd" placeholder="Password" ></td></tr></p>
+    </table>
+    <br />
+    <input type="button" value="Register" onclick="regReDirect()"/>
+    <input type="hidden" name="temp" value="dummy"/>
+</div>
+</form>
+</body>
+</html>

@@ -1,0 +1,36 @@
+.homePageDiv{
+    background-color: #fff;
+    width: 40%;
+    padding: 0% 0% 2% 0%;
+    border: 2px solid black;
+    margin: auto;
+}
+.regDiv{
+    margin: 0 auto;
+    width: 30%;
+    padding: 5%;
+    display: inline-block;
+    border-right: thick solid #000;
+}
+.loginDiv{
+    width: 45%;
+    padding: 5%;
+    margin: 0 auto;
+    display: inline-block;
+}
+input[type=button] {
+    width: 100px;
+    margin: auto;
+    display: block;
+}
+.regPageDiv{
+    text-align: center;
+}
+#boxDiv{
+    background-color: #fff;
+    width: 36%;
+    padding: 2%;
+    border: 2px solid black;
+    margin: auto;
+    text-align: center;
+}
